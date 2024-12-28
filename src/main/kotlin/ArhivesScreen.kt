@@ -1,7 +1,7 @@
 import java.util.Scanner
 import kotlin.system.exitProcess
 
-class ArchiveScreen: Screen {
+class ArchivesScreen: Screen {
     private val archiveMap = mutableMapOf<Int, Archive>()
 
     fun start() {
@@ -9,14 +9,13 @@ class ArchiveScreen: Screen {
         while (true) {
             Screen.printParagraph(true, archiveMap)
             if (scanner.hasNextInt()) {
-                val userChoice = scanner.nextInt()
-                when (userChoice) {
+                when (val userChoice = scanner.nextInt()) {
                     Screen.PARAGRAPH_EXIT   -> exit()
                     Screen.PARAGRAPH_CREATE -> {
                         create()
                         continue
                     }
-                    in archiveMap.keys      -> open()
+                    in archiveMap.keys      -> open(userChoice)
                     else -> {
                         println("Введенного числа нет в списке меню. Попробуйте еще раз...")
                         continue
@@ -39,10 +38,17 @@ class ArchiveScreen: Screen {
         val scanner = Scanner(System.`in`)
 
         println("Введите название архива")
-        archiveMap[if (archiveMap.isEmpty()) 2 else archiveMap.keys.last() + 1] = Archive(scanner.nextLine())
+        var name = scanner.nextLine().trim()
+        while (name == "") {
+            println("Имя не может быть пустым. Попробуйте еще раз...")
+            name = scanner.nextLine().trim()
+        }
+
+        archiveMap[if (archiveMap.isEmpty()) 2 else archiveMap.keys.last() + 1] = Archive(name)
     }
 
-    override fun open() {
-        TODO("Not yet implemented")
+    override fun open(paragraph: Int) {
+        val openedArchiveScreen = OpenedArchiveScreen(this, archiveMap[paragraph]!!)
+        openedArchiveScreen.start()
     }
 }

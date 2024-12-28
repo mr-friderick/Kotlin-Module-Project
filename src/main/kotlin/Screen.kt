@@ -13,6 +13,6 @@ interface Screen {
 
     fun exit()
     fun create()
-    fun open()
+    fun open(paragraph: Int)
 }
 

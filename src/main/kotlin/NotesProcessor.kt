@@ -1,8 +1,8 @@
 class NotesProcessor {
 
     fun start() {
-        val archiveScreen = ArchiveScreen()
-        archiveScreen.start()
+        val archivesScreen = ArchivesScreen()
+        archivesScreen.start()
     }
 
 }
